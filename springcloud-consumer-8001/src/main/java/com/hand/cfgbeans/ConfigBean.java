@@ -1,5 +1,7 @@
 package com.hand.cfgbeans;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RetryRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,13 @@ public class ConfigBean {
     @LoadBalanced
     public RestTemplate restTemplate(){
         return  new RestTemplate();
+    }
+
+    @Bean
+    public IRule myIRule(){
+        //return new RoundRobinRule(); 轮询
+        //return new RandomRule(); 随机
+        return new RetryRule(); //服务挂掉了就不再选择
     }
 
 }
